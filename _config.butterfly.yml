@@ -1,3 +1,4 @@
+# 基础信息
 menu:
   首页: / || fa fa-home
   归档: /archives/ || fa fa-archive
@@ -19,3 +20,74 @@ footer:
     enable: true
     since: 2026
   custom_text: 越越的小博客
+
+# 核心：关闭CDN，全部使用本地打包资源（解决国内空白关键）
+cdn:
+  enable: false
+
+# 首页设置
+index_post_count: 10
+excerpt_length: 200
+
+# 404页面
+error_img: /img/404.png
+error_text: 页面走丢啦~
+
+# 本地搜索
+local_search:
+  enable: true
+  preload: false
+  top_n_per_article: 1
+  unescape: false
+
+# 代码块
+highlight:
+  theme: github-gist
+  copy_btn: true
+
+# 图片懒加载
+lazyload:
+  enable: true
+  placeholder: /img/friend_404.gif
+
+# 文章页配置
+post_meta:
+  page:
+    date_type: date
+    categories: true
+    tags: true
+  post:
+    date_type: both
+    categories: true
+    tags: true
+
+# 侧边栏
+sidebar:
+  position: left
+  display: post
+  offset: 12
+  on_mobile: false
+
+# 友链页面
+friend_link:
+  title: 小伙伴
+  random: true
+
+# 页脚版权
+copyright:
+  enable: true
+  count: true
+
+# 加载动画
+loading:
+  fullpage: false
+  pace: true
+
+# 暗黑模式
+darkmode:
+  enable: true
+  auto_change: true
+
+# 评论（暂时关闭，避免额外加载失败）
+comment:
+  use: false
