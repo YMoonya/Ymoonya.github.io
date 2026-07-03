@@ -1,44 +1,47 @@
 name: Hexo Deploy
-
-# 触发条件：当 main 分支有 push 时自动执行
 on:
   push:
-    branches:
-      - master
-
+    branches: [ main, master ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取代码
-      - name: Checkout
+      # 拉取完整源码
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
-          submodules: false
           fetch-depth: 0
 
-      # 2. 配置 Node.js 环境（和你本地版本一致就行，18/20都可以）
+      # 安装 Node 环境
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
-      # 3. 安装 Hexo 依赖
-      - name: Install Dependencies
+      # 1. 全局安装 hexo-cli（无需 package.json）
+      - name: Install Hexo CLI global
+        run: npm install hexo-cli -g
+
+      # 2. 校验本地是否存在 package.json，不存在直接抛出提示
+      - name: Check package.json
         run: |
-          npm install hexo-cli -g
-          npm install
+          if [ ! -f "package.json" ]; then
+            echo "ERROR: 仓库根目录缺少 package.json，请上传完整Hexo项目源码"
+            exit 1
+          fi
 
-      # 4. 生成静态网页
-      - name: Generate Static Files
+      # 3. 安装本地项目依赖（仅当 package.json 存在时执行）
+      - name: Install local dependencies
+        run: npm install
+
+      # 构建静态页面
+      - name: Build static files
         run: hexo clean && hexo generate
 
-      # 5. 部署到 gh-pages 分支
+      # 部署到 gh-pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          deploy_key: ${{ secrets.HEXO_DEPLOY_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: gh-pages
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
