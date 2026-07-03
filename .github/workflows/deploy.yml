@@ -1,5 +1,4 @@
 name: Hexo Deploy
-# 防止双流水线冲突
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -21,9 +20,9 @@ jobs:
           cache: 'npm'
       - name: 安装项目依赖
         run: npm install
-      - name: Hexo 清理+生成静态页面
+      - name: Hexo 构建静态文件
         run: npx hexo clean && npx hexo generate
-      - name: 自动创建/更新 gh-pages 分支
+      - name: 部署到 gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
