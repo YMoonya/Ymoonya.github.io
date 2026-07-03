@@ -1,44 +1,24 @@
 name: Hexo Deploy
-
-# 触发条件：当 main 分支有 push 时自动执行
 on:
   push:
-    branches:
-      - master
-
+    branches: [ master ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取代码
-      - name: Checkout
+      - name: Checkout source
         uses: actions/checkout@v4
-        with:
-          submodules: false
-          fetch-depth: 0
-
-      # 2. 配置 Node.js 环境（和你本地版本一致就行，18/20都可以）
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
-      # 3. 安装 Hexo 依赖
-      - name: Install Dependencies
-        run: |
-          npm install hexo-cli -g
-          npm install
-
-      # 4. 生成静态网页
-      - name: Generate Static Files
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Build Hexo
         run: hexo clean && hexo generate
-
-      # 5. 部署到 gh-pages 分支
-      - name: Deploy to GitHub Pages
+      - name: Deploy Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          deploy_key: ${{ secrets.HEXO_DEPLOY_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: gh-pages
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
