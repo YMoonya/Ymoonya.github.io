@@ -9,23 +9,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 拉取完整源码
+      - name: 拉取源码
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: 配置Node 20
+      - name: Node环境
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-      # 关键：全局安装 hexo-cli，保证系统能识别 hexo 命令
-      - name: 全局安装 Hexo
+      - name: 全局安装Hexo
         run: npm install hexo-cli -g
       - name: 安装项目依赖
         run: npm install
-      - name: Hexo 清理并生成静态页面
+      - name: 构建静态页面
         run: hexo clean && hexo generate
-      - name: 部署到 gh-pages 分支
+      - name: 生成.nojekyll（核心修复空白）
+        run: touch public/.nojekyll
+      - name: 推送gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
