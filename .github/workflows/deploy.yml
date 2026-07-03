@@ -1,4 +1,8 @@
 name: Hexo Deploy
+# 防止双流水线冲突
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 on:
   push:
     branches: [ master ]
@@ -6,17 +10,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: 拉取完整源码
         uses: actions/checkout@v4
-      - name: Setup Node.js
+        with:
+          fetch-depth: 0
+      - name: 配置Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install dependencies
+          cache: 'npm'
+      - name: 安装项目依赖
         run: npm install
-      - name: Build Hexo
-        run: hexo clean && hexo generate
-      - name: Deploy Pages
+      - name: Hexo 清理+生成静态页面
+        run: npx hexo clean && npx hexo generate
+      - name: 自动创建/更新 gh-pages 分支
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
