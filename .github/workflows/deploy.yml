@@ -9,11 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 拉取源码
+      - name: 拉取完整源码
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Node环境
+      - name: 配置Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -23,11 +23,12 @@ jobs:
         run: npm install
       - name: 构建静态页面
         run: hexo clean && hexo generate
-      - name: 生成.nojekyll（核心修复空白）
+      - name: 强制生成.nojekyll
         run: touch public/.nojekyll
-      - name: 推送gh-pages
+      - name: 强制清空gh-pages旧文件再推送
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: gh-pages
+          force_orphan: true
