@@ -1,11 +1,21 @@
 name: Hexo Deploy
+<<<<<<< HEAD
 on:
   push:
     branches: [ main, master ]
+=======
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+on:
+  push:
+    branches: [ master ]
+>>>>>>> 80f7f53e77b0634cc251e6a18c4c7efea1ca57b9
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
       # 拉取完整源码
       - name: Checkout source
         uses: actions/checkout@v4
@@ -40,8 +50,28 @@ jobs:
 
       # 部署到 gh-pages
       - name: Deploy to GitHub Pages
+=======
+      - name: 拉取完整源码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 配置Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: 安装项目依赖
+        run: npm install
+      - name: Hexo 构建静态文件
+        run: npx hexo clean && npx hexo generate
+      - name: 部署到 gh-pages
+>>>>>>> 80f7f53e77b0634cc251e6a18c4c7efea1ca57b9
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+<<<<<<< HEAD
           publish_branch: gh-pages
+=======
+          publish_branch: gh-pages
+>>>>>>> 80f7f53e77b0634cc251e6a18c4c7efea1ca57b9
