@@ -1,0 +1,21 @@
+menu:
+  首页: / || fa fa-home
+  归档: /archives/ || fa fa-archive
+  标签: /tags/ || fa fa-tags
+  分类: /categories/ || fa fa-folder-open
+  关于: /about/ || fa fa-heart
+
+avatar:
+  img: /img/avatar.png
+  effect: false
+
+favicon: /img/favicon.ico
+
+social:
+  fab fa-github: https://github.com/YMoonya || Github
+
+footer:
+  owner:
+    enable: true
+    since: 2026
+  custom_text: 越越的小博客
