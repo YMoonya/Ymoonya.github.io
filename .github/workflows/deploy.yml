@@ -18,10 +18,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+      # 关键：全局安装 hexo-cli，保证系统能识别 hexo 命令
+      - name: 全局安装 Hexo
+        run: npm install hexo-cli -g
       - name: 安装项目依赖
         run: npm install
       - name: Hexo 清理并生成静态页面
-        run: npx hexo clean && hexo generate
+        run: hexo clean && hexo generate
       - name: 部署到 gh-pages 分支
         uses: peaceiris/actions-gh-pages@v4
         with:
