@@ -102,6 +102,6 @@ theme: Butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
- type: git
- repo: https://github.com/YMoonya/Ymoonya.github.io.git
- branch: main
+  type: git
+  repo: https://github.com/YMoonya/Ymoonya.github.io.git
+  branch: gh-pages
