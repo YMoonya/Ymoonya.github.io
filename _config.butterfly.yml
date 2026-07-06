@@ -10,7 +10,7 @@ avatar:
   img: /img/avatar.png
   effect: false
 
-favicon: /favicon.ico
+favicon: /img/favicon.ico
 
 social:
   fab fa-github: https://github.com/YMoonya || Github
